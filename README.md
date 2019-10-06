@@ -1,3 +1,9 @@
+## Drag and drop with react-beautiful-dnd
+
+TODO: prevent unncessary rendering
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -7,17 +7,29 @@ const Container = styled.div`
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
-  background-color: white;
+  background-color: ${props =>(props.isDragging ? 'skyblue' : 'white')};
+
+  display: flex;
+`;
+
+const Handle = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: orange;
+  border-radius: 4px;
+  margin-right: 8px;
 `;
 
 const Task = ({ task, index }) => {
   return <Draggable draggableId={task.id} index={index}>
-    {provided => (
+    {(provided, snapshot) => (
       <Container
         ref = {provided.innerRef}
         {...provided.draggableProps}
-        {...provided.dragHandleProps}
+        isDragging={snapshot.isDragging}
       >
+        <Handle 
+        {...provided.dragHandleProps}/>
         {task.content}
       </Container>
     )}

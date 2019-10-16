@@ -1,7 +1,7 @@
-import React from 'react';
-import Task from './Task';
-import styled from 'styled-components';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import React from "react";
+import Task from "./Task";
+import styled from "styled-components";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
 const Container = styled.div`
   margin: 8px;
@@ -20,41 +20,39 @@ const Title = styled.h3`
 const TaskList = styled.div`
   padding: 8px;
   transition: background-color 0.3s ease;
-  background-color: ${props => (props.isDraggingOver ? 'lightsalmon' : 'inherit')};
+  background-color: ${props =>
+    props.isDraggingOver ? "lightsalmon" : "inherit"};
   flex-grow: 1;
   min-height: 100px;
 `;
 
+const InnerList = React.memo(({ tasks }) => {
+  
+  return tasks.map((task, index) => 
+    <Task key={task.id} task={task} index={index} />
+  );
+});
+
 const Column = ({ column, tasks, index, isDropDisabled }) => {
   return (
-    <Draggable
-      draggableId = {column.id}
-      index = {index}
-    >
+    <Draggable draggableId={column.id} index={index}>
       {provided => (
-        <Container
-         {...provided.draggableProps}
-         ref={provided.innerRef}
-        >
-          <Title
-           {...provided.dragHandleProps}
-          >
-            {column.title}
-          </Title>
-          <Droppable 
+        <Container {...provided.draggableProps} ref={provided.innerRef}>
+          <Title {...provided.dragHandleProps}>{column.title}</Title>
+          <Droppable
             droppableId={column.id}
-            type='task'
+            type="task"
             // type={column.id === 'column-3' ? 'done' : 'active'}
             isDropDisabled={isDropDisabled}
-            direction='vertical'
+            direction="vertical"
           >
             {(provided, snapshot) => (
-              <TaskList 
+              <TaskList
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                {tasks.map((task, index) => <Task key={task.id} task={task} index={index}/>)}
+                <InnerList tasks={tasks} />
                 {provided.placeholder}
               </TaskList>
             )}
